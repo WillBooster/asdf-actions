@@ -126,7 +126,7 @@ var require_file_command = __commonJS((exports2) => {
     return result;
   };
   Object.defineProperty(exports2, "__esModule", {value: true});
-  var fs3 = __importStar(require("fs"));
+  var fs4 = __importStar(require("fs"));
   var os2 = __importStar(require("os"));
   var utils_1 = require_utils();
   function issueCommand(command, message) {
@@ -134,10 +134,10 @@ var require_file_command = __commonJS((exports2) => {
     if (!filePath) {
       throw new Error(`Unable to find environment variable for file command ${command}`);
     }
-    if (!fs3.existsSync(filePath)) {
+    if (!fs4.existsSync(filePath)) {
       throw new Error(`Missing file at path: ${filePath}`);
     }
-    fs3.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os2.EOL}`, {
+    fs4.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os2.EOL}`, {
       encoding: "utf8"
     });
   }
@@ -261,10 +261,10 @@ var require_core = __commonJS((exports2) => {
     command_1.issue("warning", message instanceof Error ? message.toString() : message);
   }
   exports2.warning = warning;
-  function info3(message) {
+  function info4(message) {
     process.stdout.write(message + os2.EOL);
   }
-  exports2.info = info3;
+  exports2.info = info4;
   function startGroup(name) {
     command_1.issue("group", name);
   }
@@ -329,9 +329,9 @@ var require_io_util = __commonJS((exports2) => {
   var _a;
   Object.defineProperty(exports2, "__esModule", {value: true});
   var assert_1 = require("assert");
-  var fs3 = require("fs");
+  var fs4 = require("fs");
   var path2 = require("path");
-  _a = fs3.promises, exports2.chmod = _a.chmod, exports2.copyFile = _a.copyFile, exports2.lstat = _a.lstat, exports2.mkdir = _a.mkdir, exports2.readdir = _a.readdir, exports2.readlink = _a.readlink, exports2.rename = _a.rename, exports2.rmdir = _a.rmdir, exports2.stat = _a.stat, exports2.symlink = _a.symlink, exports2.unlink = _a.unlink;
+  _a = fs4.promises, exports2.chmod = _a.chmod, exports2.copyFile = _a.copyFile, exports2.lstat = _a.lstat, exports2.mkdir = _a.mkdir, exports2.readdir = _a.readdir, exports2.readlink = _a.readlink, exports2.rename = _a.rename, exports2.rmdir = _a.rmdir, exports2.stat = _a.stat, exports2.symlink = _a.symlink, exports2.unlink = _a.unlink;
   exports2.IS_WINDOWS = process.platform === "win32";
   function exists(fsPath) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -1217,6 +1217,7 @@ var core4 = __toModule(require_core());
 // lib/install/index.ts
 var core3 = __toModule(require_core());
 var exec5 = __toModule(require_exec());
+var fs3 = __toModule(require("fs"));
 
 // lib/plugins-add/index.ts
 var core2 = __toModule(require_core());
@@ -1312,6 +1313,13 @@ async function pluginsAdd() {
 // lib/install/index.ts
 async function toolsInstall() {
   await pluginsAdd();
+  if (fs3.existsSync(".node-version")) {
+    core3.info(`Installing nodejs plugin...`);
+    await exec5.exec("asdf", ["plugin-add", "nodejs"]);
+  }
+  if (fs3.existsSync(".tool-versions") && fs3.readFileSync(".tool-versions", "utf-8").includes("gcloud")) {
+    await exec5.exec("asdf", ["install", "python"]);
+  }
   const before = core3.getInput("before_install", {required: false});
   if (before) {
     await exec5.exec("bash", ["-c", before]);
