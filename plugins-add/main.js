@@ -1294,6 +1294,9 @@ async function pluginsAdd() {
     });
   }
   const pluginNames = toolVersions.split("\n").map((x) => x.replace(/#.*/, "").trim()).filter((x) => x.length > 0).map((x) => x.split(" ")[0]);
+  if (fs2.existsSync(".node-version")) {
+    pluginNames.push("nodejs");
+  }
   const installedPluginNames = await pluginList();
   for (const pluginName of pluginNames) {
     if (installedPluginNames.includes(pluginName)) {

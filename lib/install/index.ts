@@ -6,11 +6,6 @@ import { pluginsAdd } from "../plugins-add";
 export async function toolsInstall(): Promise<void> {
   await pluginsAdd();
 
-  if (fs.existsSync(".node-version")) {
-    core.info(`Installing nodejs plugin...`);
-    await exec.exec("asdf", ["plugin-add", "nodejs"]);
-  }
-
   if (
     fs.existsSync(".tool-versions") &&
     fs.readFileSync(".tool-versions", "utf-8").includes("gcloud")

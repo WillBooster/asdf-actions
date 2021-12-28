@@ -261,10 +261,10 @@ var require_core = __commonJS((exports2) => {
     command_1.issue("warning", message instanceof Error ? message.toString() : message);
   }
   exports2.warning = warning;
-  function info4(message) {
+  function info3(message) {
     process.stdout.write(message + os2.EOL);
   }
-  exports2.info = info4;
+  exports2.info = info3;
   function startGroup(name) {
     command_1.issue("group", name);
   }
@@ -1299,6 +1299,9 @@ async function pluginsAdd() {
     });
   }
   const pluginNames = toolVersions.split("\n").map((x) => x.replace(/#.*/, "").trim()).filter((x) => x.length > 0).map((x) => x.split(" ")[0]);
+  if (fs2.existsSync(".node-version")) {
+    pluginNames.push("nodejs");
+  }
   const installedPluginNames = await pluginList();
   for (const pluginName of pluginNames) {
     if (installedPluginNames.includes(pluginName)) {
@@ -1313,10 +1316,6 @@ async function pluginsAdd() {
 // lib/install/index.ts
 async function toolsInstall() {
   await pluginsAdd();
-  if (fs3.existsSync(".node-version")) {
-    core3.info(`Installing nodejs plugin...`);
-    await exec5.exec("asdf", ["plugin-add", "nodejs"]);
-  }
   if (fs3.existsSync(".tool-versions") && fs3.readFileSync(".tool-versions", "utf-8").includes("gcloud")) {
     await exec5.exec("asdf", ["install", "python"]);
   }

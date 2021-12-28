@@ -48,6 +48,10 @@ export async function pluginsAdd(): Promise<void> {
     .filter((x) => x.length > 0)
     .map((x) => x.split(" ")[0]);
 
+  if (fs.existsSync(".node-version")) {
+    pluginNames.push("nodejs");
+  }
+
   const installedPluginNames = await pluginList();
 
   for (const pluginName of pluginNames) {
