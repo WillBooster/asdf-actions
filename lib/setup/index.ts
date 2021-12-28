@@ -34,4 +34,8 @@ export async function setupAsdf(): Promise<void> {
       asdfDir,
     ]);
   }
+  fs.writeFileSync(
+    path.join(os.homedir(), ".asdfrc"),
+    "legacy_version_file = yes"
+  );
 }

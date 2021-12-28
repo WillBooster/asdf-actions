@@ -1255,6 +1255,7 @@ async function setupAsdf() {
       asdfDir
     ]);
   }
+  fs.writeFileSync(path.join(os.homedir(), ".asdfrc"), "legacy_version_file = yes");
 }
 
 // lib/plugins-add/index.ts
