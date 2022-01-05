@@ -1316,6 +1316,12 @@ async function pluginsAdd() {
 // lib/install/index.ts
 async function toolsInstall() {
   await pluginsAdd();
+  if (fs3.existsSync(".tool-versions")) {
+    const toolVersionsText = fs3.readFileSync(".tool-versions", "utf-8");
+    if (toolVersionsText.includes("gcloud") || toolVersionsText.includes("poetry")) {
+      await exec5.exec("asdf", ["install", "python"]);
+    }
+  }
   if (fs3.existsSync(".tool-versions") && fs3.readFileSync(".tool-versions", "utf-8").includes("gcloud")) {
     await exec5.exec("asdf", ["install", "python"]);
   }
