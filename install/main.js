@@ -1316,13 +1316,14 @@ async function pluginsAdd() {
 // lib/install/index.ts
 async function toolsInstall() {
   await pluginsAdd();
-  if (fs3.existsSync(".tool-versions")) {
-    const toolVersionsText = fs3.readFileSync(".tool-versions", "utf-8");
-    if (toolVersionsText.includes("gcloud") || toolVersionsText.includes("poetry")) {
-      await exec5.exec("asdf", ["install", "python"]);
+  let toolVersionsText = "";
+  try {
+    if (fs3.existsSync(".tool-versions")) {
+      toolVersionsText = fs3.readFileSync(".tool-versions", "utf-8");
     }
+  } catch (_) {
   }
-  if (fs3.existsSync(".tool-versions") && fs3.readFileSync(".tool-versions", "utf-8").includes("gcloud")) {
+  if (toolVersionsText.includes("gcloud") || toolVersionsText.includes("poetry")) {
     await exec5.exec("asdf", ["install", "python"]);
   }
   const before = core3.getInput("before_install", {required: false});
