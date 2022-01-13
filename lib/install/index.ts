@@ -6,15 +6,15 @@ import { pluginsAdd } from "../plugins-add";
 export async function toolsInstall(): Promise<void> {
   await pluginsAdd();
 
-  let toolVersionsText = '';
+  let versionsText = "";
   try {
     if (fs.existsSync(".tool-versions")) {
-      toolVersionsText = fs.readFileSync(".tool-versions", "utf-8");
+      versionsText = fs.readFileSync(".tool-versions", "utf-8");
     }
   } catch (_) {
     // do nothing
   }
-  if (toolVersionsText.includes("gcloud") || toolVersionsText.includes("poetry")) {
+  if (versionsText.includes("gcloud") || versionsText.includes("poetry")) {
     await exec.exec("asdf", ["install", "python"]);
   }
 

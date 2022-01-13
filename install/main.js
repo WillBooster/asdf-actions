@@ -1244,10 +1244,12 @@ async function setupAsdf() {
   const branch = core.getInput("asdf_branch", {required: true});
   if (fs.existsSync(asdfDir)) {
     core.info(`Updating asdf on ASDF_DIR: ${asdfDir}`);
-    await exec.exec("git", ["fetch", "--depth", "1"], {cwd: asdfDir});
-    await exec.exec("git", ["checkout", "-B", branch, "origin"], {
+    const opts = {
       cwd: asdfDir
-    });
+    };
+    await exec.exec("git", ["remote", "set-branches", "origin", branch], opts);
+    await exec.exec("git", ["fetch", "--depth", "1", "origin", branch], opts);
+    await exec.exec("git", ["checkout", "-B", branch, "origin"], opts);
   } else {
     core.info(`Cloning asdf into ASDF_DIR: ${asdfDir}`);
     await exec.exec("git", [
@@ -1256,6 +1258,7 @@ async function setupAsdf() {
       "1",
       "--branch",
       branch,
+      "--single-branch",
       "https://github.com/asdf-vm/asdf.git",
       asdfDir
     ]);
@@ -1316,14 +1319,14 @@ async function pluginsAdd() {
 // lib/install/index.ts
 async function toolsInstall() {
   await pluginsAdd();
-  let toolVersionsText = "";
+  let versionsText = "";
   try {
     if (fs3.existsSync(".tool-versions")) {
-      toolVersionsText = fs3.readFileSync(".tool-versions", "utf-8");
+      versionsText = fs3.readFileSync(".tool-versions", "utf-8");
     }
   } catch (_) {
   }
-  if (toolVersionsText.includes("gcloud") || toolVersionsText.includes("poetry")) {
+  if (versionsText.includes("gcloud") || versionsText.includes("poetry")) {
     await exec5.exec("asdf", ["install", "python"]);
   }
   const before = core3.getInput("before_install", {required: false});
