@@ -1297,9 +1297,12 @@ async function pluginsAdd() {
       encoding: "utf8"
     });
   } else {
-    toolVersions = await fs2.promises.readFile(".tool-versions", {
-      encoding: "utf8"
-    });
+    try {
+      toolVersions = await fs2.promises.readFile(".tool-versions", {
+        encoding: "utf8"
+      });
+    } catch {
+    }
   }
   const pluginNames = toolVersions.split("\n").map((x) => x.replace(/#.*/, "").trim()).filter((x) => x.length > 0).map((x) => x.split(" ")[0]);
   if (fs2.existsSync(".node-version")) {

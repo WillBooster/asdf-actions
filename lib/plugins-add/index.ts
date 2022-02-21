@@ -37,9 +37,13 @@ export async function pluginsAdd(): Promise<void> {
       encoding: "utf8",
     });
   } else {
-    toolVersions = await fs.promises.readFile(".tool-versions", {
-      encoding: "utf8",
-    });
+    try {
+      toolVersions = await fs.promises.readFile(".tool-versions", {
+        encoding: "utf8",
+      });
+    } catch {
+      // do nothing
+    }
   }
 
   const pluginNames = toolVersions
