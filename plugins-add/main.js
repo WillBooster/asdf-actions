@@ -3326,6 +3326,9 @@ async function pluginsAdd() {
   if (fs2.existsSync(".node-version")) {
     pluginNames.push("nodejs");
   }
+  if (fs2.existsSync(".python-version")) {
+    pluginNames.push("python");
+  }
   const installedPluginNames = await pluginList();
   for (const pluginName of pluginNames) {
     if (installedPluginNames.includes(pluginName)) {

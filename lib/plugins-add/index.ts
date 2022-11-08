@@ -55,6 +55,9 @@ export async function pluginsAdd(): Promise<void> {
   if (fs.existsSync(".node-version")) {
     pluginNames.push("nodejs");
   }
+  if (fs.existsSync(".python-version")) {
+    pluginNames.push("python");
+  }
 
   const installedPluginNames = await pluginList();
 
