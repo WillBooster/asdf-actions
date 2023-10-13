@@ -2,7 +2,7 @@ name: Test plugin
 description: Test your asdf plugin
 author: Victor Borja <vborja@apache.org>
 runs:
-  using: node16
+  using: node20
   main: main.js
 inputs:
   command:
@@ -27,6 +27,10 @@ inputs:
     description: asdf branch to clone
     required: false
     default: master
+  skip_install:
+    description: setup env without installing asdf
+    required: false
+    default: false
   github_token:
     description: Token used to avoid rate limit when asdf calls the GitHub API
     required: false
