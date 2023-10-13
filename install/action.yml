@@ -2,7 +2,7 @@ name: asdf install
 description: Install your versioned tools with asdf
 author: Victor Borja <vborja@apache.org>
 runs:
-  using: node16
+  using: node20
   main: main.js
 inputs:
   tool_versions:
@@ -18,3 +18,7 @@ inputs:
     description: asdf branch to clone
     required: false
     default: master
+  skip_install:
+    description: setup env without installing asdf
+    required: false
+    default: false
