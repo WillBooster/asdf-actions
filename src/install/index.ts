@@ -1,4 +1,5 @@
 import * as fs from 'node:fs';
+import * as path from 'node:path';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import {pluginsAdd} from '~/plugins-add/index.ts';
@@ -25,6 +26,14 @@ async function toolsInstall(): Promise<void> {
 	}
 
 	await exec.exec('asdf', ['install']);
+
+	if (versionsText.includes('java')) {
+		const output = await exec.getExecOutput('asdf', ['which', 'java']);
+		const javaPath = output.stdout.trim();
+		if (fs.existsSync(javaPath)) {
+			core.exportVariable('JAVA_HOME', path.dirname(path.dirname(output.stdout.trim())));
+		}
+	}
 }
 
 export {toolsInstall};
