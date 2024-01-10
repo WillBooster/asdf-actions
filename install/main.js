@@ -3390,6 +3390,13 @@ async function toolsInstall() {
   if (versionsText.includes("gcloud") || versionsText.includes("poetry")) {
     await exec5.exec("asdf", ["install", "python"]);
   }
+  if (versionsText.includes("ruby")) {
+    const { stdout: rubyVersions } = await exec5.getExecOutput("asdf", ["list", "ruby"]);
+    const [version2] = rubyVersions.replaceAll("*", "").trim().split(/\s+/);
+    if (version2) {
+      await exec5.exec("asdf", ["global", "ruby", version2]);
+    }
+  }
   const before = core3.getInput("before_install", { required: false });
   if (before) {
     await exec5.exec("bash", ["-c", before]);
@@ -3401,6 +3408,9 @@ async function toolsInstall() {
     if (fs3.existsSync(javaPath)) {
       core3.exportVariable("JAVA_HOME", path2.dirname(path2.dirname(output.stdout.trim())));
     }
+  }
+  if (versionsText.includes("ruby")) {
+    await exec5.exec("asdf", ["global", "ruby", "system"]);
   }
 }
 

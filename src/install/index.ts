@@ -20,6 +20,15 @@ async function toolsInstall(): Promise<void> {
 		await exec.exec('asdf', ['install', 'python']);
 	}
 
+	if (versionsText.includes('ruby')) {
+		const {stdout: rubyVersions} = await exec.getExecOutput('asdf', ['list', 'ruby']);
+		const [version] = rubyVersions.replaceAll('*', '').trim().split(/\s+/);
+		if (version) {
+			// Cf. https://github.com/rbenv/ruby-build/discussions/1875#discussioncomment-2081287
+			await exec.exec('asdf', ['global', 'ruby', version]);
+		}
+	}
+
 	const before = core.getInput('before_install', {required: false});
 	if (before) {
 		await exec.exec('bash', ['-c', before]);
@@ -33,6 +42,10 @@ async function toolsInstall(): Promise<void> {
 		if (fs.existsSync(javaPath)) {
 			core.exportVariable('JAVA_HOME', path.dirname(path.dirname(output.stdout.trim())));
 		}
+	}
+
+	if (versionsText.includes('ruby')) {
+		await exec.exec('asdf', ['global', 'ruby', 'system']);
 	}
 }
 
