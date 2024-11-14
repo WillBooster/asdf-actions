@@ -3401,7 +3401,12 @@ async function toolsInstall() {
   if (before) {
     await exec5.exec("bash", ["-c", before]);
   }
-  await exec5.exec("asdf", ["install"]);
+  try {
+    await exec5.exec("asdf", ["install"]);
+  } catch {
+    await exec5.exec("asdf", ["plugin", "update", "--all"]);
+    await exec5.exec("asdf", ["install"]);
+  }
   if (versionsText.includes("java")) {
     const output = await exec5.getExecOutput("asdf", ["which", "java"]);
     const javaPath = output.stdout.trim();

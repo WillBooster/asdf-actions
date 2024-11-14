@@ -24,7 +24,7 @@ async function toolsInstall(): Promise<void> {
 		const {stdout: rubyVersions} = await exec.getExecOutput('asdf', ['list', 'ruby']);
 		const [version] = rubyVersions.replaceAll('*', '').trim().split(/\s+/);
 		if (version) {
-			// Cf. https://github.com/rbenv/ruby-build/discussions/1875#discussioncomment-2081287
+			// See https://github.com/rbenv/ruby-build/discussions/1875#discussioncomment-2081287
 			await exec.exec('asdf', ['global', 'ruby', version]);
 		}
 	}
@@ -34,7 +34,12 @@ async function toolsInstall(): Promise<void> {
 		await exec.exec('bash', ['-c', before]);
 	}
 
-	await exec.exec('asdf', ['install']);
+	try {
+		await exec.exec('asdf', ['install']);
+	} catch {
+		await exec.exec('asdf', ['plugin', 'update', '--all']);
+		await exec.exec('asdf', ['install']);
+	}
 
 	if (versionsText.includes('java')) {
 		const output = await exec.getExecOutput('asdf', ['which', 'java']);
@@ -45,6 +50,7 @@ async function toolsInstall(): Promise<void> {
 	}
 
 	if (versionsText.includes('ruby')) {
+		// See https://github.com/rbenv/ruby-build/discussions/1875#discussioncomment-2081287
 		await exec.exec('asdf', ['global', 'ruby', 'system']);
 	}
 }
