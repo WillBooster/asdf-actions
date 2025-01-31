@@ -17,7 +17,7 @@ inputs:
   asdf_branch:
     description: asdf branch to clone
     required: false
-    default: master
+    default: v0.15.0
   skip_install:
     description: setup env without installing asdf
     required: false
