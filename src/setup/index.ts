@@ -24,7 +24,7 @@ async function setupAsdf(): Promise<void> {
 
 	const branch = core.getInput('asdf_branch', {required: true});
 	if (fs.existsSync(asdfDir)) {
-		core.info(`Updating asdf in ASDF_DIR "${asdfDir}" on branch "${branch}"`);
+		core.info(`Updating asdf in ASDF_DIR "${asdfDir}" on branch/commit "${branch}"`);
 		const options = {cwd: asdfDir};
 		await exec.exec('git', ['reset', '--hard'], options);
 		await exec.exec('git', ['fetch', '--depth', '1', 'origin', branch], options);
