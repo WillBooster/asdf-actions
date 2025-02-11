@@ -5,10 +5,10 @@ runs:
   using: node20
   main: main.js
 inputs:
-  asdf_branch:
+  asdf_tag:
     description: asdf branch to clone
     required: false
-    default: 31e8c93004abd76253d186b8896785895069749b
+    default: v0.15.0
   skip_install:
     description: setup env without installing asdf
     required: false

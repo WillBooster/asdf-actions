@@ -14,10 +14,10 @@ inputs:
       Bash script to run after plugins are installed but before `asdf install`.
       eg, to install npm keyring
     required: false
-  asdf_branch:
+  asdf_tag:
     description: asdf branch to clone
     required: false
-    default: 31e8c93004abd76253d186b8896785895069749b
+    default: v0.15.0
   skip_install:
     description: setup env without installing asdf
     required: false

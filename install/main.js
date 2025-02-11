@@ -3292,21 +3292,21 @@ async function setupAsdf() {
   if (skip) {
     return;
   }
-  const branch = core.getInput("asdf_branch", { required: true });
+  const tag = core.getInput("asdf_tag", { required: true });
   if (fs.existsSync(asdfDir)) {
-    core.info(`Updating asdf in ASDF_DIR "${asdfDir}" on branch/commit "${branch}"`);
+    core.info(`Updating asdf in ASDF_DIR "${asdfDir}" on tag "${tag}"`);
     const options = { cwd: asdfDir };
     await exec.exec("git", ["reset", "--hard"], options);
-    await exec.exec("git", ["fetch", "--depth", "1", "origin", branch], options);
-    await exec.exec("git", ["checkout", branch], options);
+    await exec.exec("git", ["fetch", "--depth", "1", "origin", "tag", tag], options);
+    await exec.exec("git", ["checkout", tag], options);
   } else {
-    core.info(`Cloning asdf into ASDF_DIR "${asdfDir}" on branch "${branch}"`);
+    core.info(`Cloning asdf into ASDF_DIR "${asdfDir}" on tag "${tag}"`);
     await exec.exec("git", [
       "clone",
       "--depth",
       "1",
       "--branch",
-      branch,
+      tag,
       "--single-branch",
       "https://github.com/asdf-vm/asdf.git",
       asdfDir
