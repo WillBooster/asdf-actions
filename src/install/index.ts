@@ -38,7 +38,7 @@ async function toolsInstall(): Promise<void> {
 		await exec.exec('asdf', ['install']);
 	} catch {
 		await exec.exec('asdf', ['plugin', 'update', '--all']);
-		await exec.exec('asdf', ['install']);
+		await exec.exec('asdf', ['install'], {ignoreReturnCode: true});
 	}
 
 	if (versionsText.includes('java')) {

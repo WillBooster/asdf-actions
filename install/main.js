@@ -20278,7 +20278,7 @@ async function toolsInstall() {
     await exec5.exec("asdf", ["install"]);
   } catch {
     await exec5.exec("asdf", ["plugin", "update", "--all"]);
-    await exec5.exec("asdf", ["install"]);
+    await exec5.exec("asdf", ["install"], { ignoreReturnCode: true });
   }
   if (versionsText.includes("java")) {
     const output = await exec5.getExecOutput("asdf", ["which", "java"]);
