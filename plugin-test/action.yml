@@ -23,10 +23,13 @@ inputs:
     description:
       Branch or commit from repository to test. Defaults to current commit.
     required: false
-  asdf_tag:
-    description: asdf tag to clone
+  asdf_branch:
+    description: asdf branch to clone
     required: false
-    default: v0.15.0
+  asdf_version:
+    description: asdf version to install
+    required: false
+    default: latest
   skip_install:
     description: setup env without installing asdf
     required: false
