@@ -25,7 +25,7 @@ async function toolsInstall(): Promise<void> {
 		const [version] = rubyVersions.replaceAll('*', '').trim().split(/\s+/);
 		if (version) {
 			// See https://github.com/rbenv/ruby-build/discussions/1875#discussioncomment-2081287
-			await exec.exec('asdf', ['global', 'ruby', version]);
+			await exec.exec('asdf', ['set', '--home', 'ruby', version]);
 		}
 	}
 
@@ -51,7 +51,7 @@ async function toolsInstall(): Promise<void> {
 
 	if (versionsText.includes('ruby')) {
 		// See https://github.com/rbenv/ruby-build/discussions/1875#discussioncomment-2081287
-		await exec.exec('asdf', ['global', 'ruby', 'system']);
+		await exec.exec('asdf', ['set', '--home', 'ruby', 'system']);
 	}
 }
 

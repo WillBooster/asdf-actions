@@ -20267,7 +20267,7 @@ async function toolsInstall() {
     const { stdout: rubyVersions } = await exec5.getExecOutput("asdf", ["list", "ruby"]);
     const [version2] = rubyVersions.replaceAll("*", "").trim().split(/\s+/);
     if (version2) {
-      await exec5.exec("asdf", ["global", "ruby", version2]);
+      await exec5.exec("asdf", ["set", "--home", "ruby", version2]);
     }
   }
   const before = core3.getInput("before_install", { required: false });
@@ -20288,7 +20288,7 @@ async function toolsInstall() {
     }
   }
   if (versionsText.includes("ruby")) {
-    await exec5.exec("asdf", ["global", "ruby", "system"]);
+    await exec5.exec("asdf", ["set", "--home", "ruby", "system"]);
   }
 }
 
