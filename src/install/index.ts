@@ -21,7 +21,7 @@ async function toolsInstall(): Promise<void> {
 	}
 
 	if (versionsText.includes('ruby')) {
-		const {stdout: rubyVersions} = await exec.getExecOutput('asdf', ['list', 'ruby']);
+		const {stdout: rubyVersions} = await exec.getExecOutput('asdf', ['list', 'ruby'], {ignoreReturnCode: true});
 		const [version] = rubyVersions.replaceAll('*', '').trim().split(/\s+/);
 		if (version) {
 			// See https://github.com/rbenv/ruby-build/discussions/1875#discussioncomment-2081287

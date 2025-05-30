@@ -20264,7 +20264,7 @@ async function toolsInstall() {
     await exec5.exec("asdf", ["install", "python"]);
   }
   if (versionsText.includes("ruby")) {
-    const { stdout: rubyVersions } = await exec5.getExecOutput("asdf", ["list", "ruby"]);
+    const { stdout: rubyVersions } = await exec5.getExecOutput("asdf", ["list", "ruby"], { ignoreReturnCode: true });
     const [version2] = rubyVersions.replaceAll("*", "").trim().split(/\s+/);
     if (version2) {
       await exec5.exec("asdf", ["set", "--home", "ruby", version2]);
