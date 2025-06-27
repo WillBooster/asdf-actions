@@ -20245,7 +20245,8 @@ async function pluginsAdd() {
       );
     } else {
       core2.info(`Installing ${pluginName} plugin...`);
-      await exec3.exec("asdf", ["plugin", "add", pluginName]);
+      const args = pluginName === "zig" ? ["plugin", "add", pluginName, "https://github.com/asdf-community/asdf-zig.git"] : ["plugin", "add", pluginName];
+      await exec3.exec("asdf", args);
     }
   }
 }

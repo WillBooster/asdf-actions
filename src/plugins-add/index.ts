@@ -69,7 +69,10 @@ async function pluginsAdd(): Promise<void> {
 			);
 		} else {
 			core.info(`Installing ${pluginName} plugin...`);
-			await exec.exec('asdf', ['plugin', 'add', pluginName]); // eslint-disable-line no-await-in-loop
+			const args = pluginName === 'zig'
+				? ['plugin', 'add', pluginName, 'https://github.com/asdf-community/asdf-zig.git']
+				: ['plugin', 'add', pluginName];
+			await exec.exec('asdf', args); // eslint-disable-line no-await-in-loop
 		}
 	}
 }
